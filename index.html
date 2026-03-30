@@ -188,30 +188,35 @@
             flex-direction: column;
             text-align: center;
         }
-
         .foto-perfil {
-            flex: 0 0 auto;
+            flex: 0 0 200px;
             text-align: center;
-            width: 100%;
         }
 
-        .foto-perfil iframe {
-            max-width: 100%;
-            height: auto;
+        .foto-perfil img {
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
-            border: 3px solid var(--roxo-principal);
+            object-fit: cover;
+            border: 4px solid var(--roxo-principal);
             box-shadow: var(--sombra-suave);
+            transition: all 0.3s ease;
+        }
+
+        .foto-perfil img:hover {
+            transform: scale(1.05);
+            border-color: var(--rosa-destaque);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
         }
 
         .foto-perfil figcaption {
-            margin-top: 8px;
+            margin-top: 10px;
             font-weight: 600;
             color: var(--roxo-escuro);
             background: var(--roxo-claro);
-            padding: 4px 12px;
+            padding: 5px 10px;
             border-radius: 20px;
             display: inline-block;
-            font-size: 0.85em;
         }
 
         .sobre-conteudo {
