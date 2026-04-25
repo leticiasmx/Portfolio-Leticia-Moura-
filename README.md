@@ -12,11 +12,7 @@
 
 ## 📸 Demonstração
 
-| Modo Claro | Modo Escuro |
-|------------|-------------|
-| ![Modo Claro](https://via.placeholder.com/400x250?text=Modo+Claro) | ![Modo Escuro](https://via.placeholder.com/400x250?text=Modo+Escuro) |
-
-🔗 **Acesse o portfólio online:** [Clique aqui para visualizar](https://leticiasmx.github.io/portfolio)
+🔗 **Acesse o portfólio online:** [Clique aqui para visualizar](https://leticiasmx.github.io/Portfolio-Leticia-Moura-/)
 
 ---
 
