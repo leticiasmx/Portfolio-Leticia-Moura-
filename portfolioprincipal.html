@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Meu Portfólio - Letícia Moura</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="description" content="Portfólio pessoal desenvolvido para o projeto final de HTML5">
+    
+    <!-- Tailwind CSS CDN + configuração customizada -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Customizações extras para manter o estilo original -->
+    <style>
+        /* Configurações personalizadas que o Tailwind não cobre nativamente */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Animações personalizadas */
+        @keyframes brilho {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-brilho::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.15) 50%, transparent 70%);
+            animation: brilho 3s infinite;
+            pointer-events: none;
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.02);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Estilos para tabela responsiva */
+        @media (max-width: 640px) {
+            .responsive-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+        
+        /* Hover personalizado para links do menu */
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(to right, #8B5CF6, #EC4899);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+        
+        .nav-link:hover::after {
+            width: 70%;
+        }
+        
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Botão voltar ao topo */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            border: none;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #7C3AED, #5B21B6);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+        }
+        
+        .back-to-top svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+        
+        /* Toggle do modo escuro */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .dark-mode-toggle:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #D97706, #B45309);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dark-mode-toggle svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+        
+        /* Botão do currículo */
+        .curriculum-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            text-decoration: none;
+        }
+        
+        .curriculum-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+        
+        /* ========== MODO ESCURO MELHORADO ========== */
+        body.dark-mode {
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+        }
+        
+        /* Cards principais */
+        body.dark-mode .bg-white\/95,
+        body.dark-mode .bg-white\/70,
+        body.dark-mode .bg-white {
+            background: #1e1e2e !important;
+            border-color: #2d2d44 !important;
+        }
+        
+        /* Fundo dos articles internos */
+        body.dark-mode .bg-gradient-to-br.from-gray-50.to-white {
+            background: #25253a !important;
+        }
+        
+        /* Listas de habilidades */
+        body.dark-mode .bg-gray-50 {
+            background: #2a2a40 !important;
+            color: #e0e0e0 !important;
+        }
+        
+        body.dark-mode .bg-gray-50 li {
+            color: #f0f0f0 !important;
+        }
+        
+        /* Textos principais */
+        body.dark-mode .text-gray-700,
+        body.dark-mode .text-gray-800 {
+            color: #f0f0f0 !important;
+        }
+        
+        /* Títulos roxos */
+        body.dark-mode .text-purple-800 {
+            color: #c4b5fd !important;
+        }
+        
+        /* Fundo de citação */
+        body.dark-mode .bg-gradient-to-r.from-purple-100.to-white {
+            background: #2a2a44 !important;
+            color: #e0e0e0 !important;
+        }
+        
+        body.dark-mode .bg-purple-100 {
+            background: #3a2a5e !important;
+        }
+        
+        /* Bordas */
+        body.dark-mode .border-gray-100 {
+            border-color: #3a3a55 !important;
+        }
+        
+        body.dark-mode .border-b.border-gray-100 {
+            border-bottom-color: #3a3a55 !important;
+        }
+        
+        /* Tabela */
+        body.dark-mode table td {
+            background: #1e1e2e !important;
+            color: #e0e0e0 !important;
+        }
+        
+        body.dark-mode table tr:hover td {
+            background: #2a2a40 !important;
+        }
+        
+        /* Links na tabela */
+        body.dark-mode .text-green-600 {
+            color: #34d399 !important;
+        }
+        
+        body.dark-mode .text-blue-600 {
+            color: #60a5fa !important;
+        }
+        
+        /* Aside informações rápidas */
+        body.dark-mode .bg-gradient-to-r.from-purple-100.to-white {
+            background: linear-gradient(135deg, #1e1e2e, #2a2a44) !important;
+        }
+        
+        body.dark-mode .bg-white\/70 {
+            background: rgba(30, 30, 46, 0.9) !important;
+        }
+        
+        body.dark-mode .text-purple-700 {
+            color: #a78bfa !important;
+        }
+        
+        /* Links do menu */
+        body.dark-mode .nav-link {
+            color: #e0e0e0 !important;
+        }
+        
+        body.dark-mode .nav-link:hover {
+            color: #c4b5fd !important;
+        }
+        
+        /* Texto do blockquote */
+        body.dark-mode blockquote {
+            color: #f0f0f0 !important;
+        }
+        
+        body.dark-mode blockquote cite {
+            color: #93c5fd !important;
+        }
+        
+        /* Hover effects no modo escuro */
+        body.dark-mode .bg-gray-50:hover {
+            background: #3a3a60 !important;
+        }
+        
+        body.dark-mode .hover\:bg-purple-50:hover {
+            background: #3a2a5e !important;
+        }
+        
+        body.dark-mode .hover\:bg-white:hover {
+            background: #3a3a55 !important;
+        }
+        
+        /* Responsividade para os botões flutuantes */
+        @media (max-width: 640px) {
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+            
+            .dark-mode-toggle {
+                bottom: 20px;
+                left: 20px;
+                width: 45px;
+                height: 45px;
+            }
+            
+            .back-to-top svg,
+            .dark-mode-toggle svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600 p-4 md:p-6 lg:p-8 min-h-screen">
+    
+    <!-- Botão Modo Escuro -->
+    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Alternar modo escuro">
+        <svg id="darkModeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+        </svg>
+    </button>
+    
+    <!-- Botão Voltar ao Topo -->
+    <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/>
+            <path d="M0 0h24v24H0z" fill="none"/>
+        </svg>
+    </button>
+    
+    <!-- Header -->
+    <header class="max-w-6xl mx-auto mb-6 md:mb-8 bg-gradient-to-r from-purple-600 to-purple-800 rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden relative hover-lift transition-all">
+        <div class="animate-brilho relative"></div>
+        <div class="text-center py-10 md:py-16 px-4 relative">
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight drop-shadow-lg mb-2 md:mb-3">
+                Letícia Moura
+            </h1>
+            <p class="text-base md:text-xl text-purple-100 font-light">
+               <b> ✨ Engenheira de Software em formação ✨ </b>
+            </p>
+        </div>
+    </header>
+    
+    <!-- Navegação -->
+    <nav class="max-w-6xl mx-auto mb-6 md:mb-8 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 md:p-6 hover-lift transition-all border border-white/20">
+        <ul class="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-6">
+            <li><a href="#sobre" class="nav-link text-gray-800 font-semibold px-4 py-2 rounded-full hover:text-purple-600 transition-colors inline-block">💜 Sobre Mim</a></li>
+            <li><a href="#formacao" class="nav-link text-gray-800 font-semibold px-4 py-2 rounded-full hover:text-purple-600 transition-colors inline-block">📚 Formação</a></li>
+            <li><a href="#habilidades" class="nav-link text-gray-800 font-semibold px-4 py-2 rounded-full hover:text-purple-600 transition-colors inline-block">⚡ Habilidades</a></li>
+            <li><a href="#projetos" class="nav-link text-gray-800 font-semibold px-4 py-2 rounded-full hover:text-purple-600 transition-colors inline-block">🚀 Projetos</a></li>
+        </ul>
+    </nav>
+    
+    <main class="max-w-6xl mx-auto">
+        <!-- Sobre Mim -->
+        <section id="sobre" class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-6 md:p-8 mb-6 md:mb-8 hover-lift transition-all animate-fadeIn border border-white/20">
+            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-purple-800 mb-6 md:mb-8 relative pb-3 inline-block">
+                Sobre Mim
+                <span class="absolute bottom-0 left-0 w-20 h-1 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full"></span>
+            </h2>
+            
+            <article class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-5 md:p-6 border-l-4 border-purple-600">
+                <div class="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+                    <!-- Foto Perfil -->
+                    <figure class="flex flex-col items-center md:w-56 flex-shrink-0">
+                        <iframe src="https://assets.pinterest.com/ext/embed.html?id=935130310144595528" height="520" width="236" frameborder="0" scrolling="no" class="rounded-full w-40 h-40 md:w-48 md:h-48 object-cover border-4 border-purple-600 shadow-xl hover:scale-105 transition-transform duration-300 hover:border-pink-500"></iframe>
+                        <figcaption class="mt-3 font-semibold text-purple-700 bg-purple-100 px-4 py-1 rounded-full text-sm">
+                            ✨ Letícia Moura ✨
+                        </figcaption>
+                    </figure>
+                    
+                    <div class="flex-1">
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-3">Minha Trajetória</h3>
+                        <p class="text-gray-700 mb-4 leading-relaxed">
+                            Oi. Tudo bem? Sou <b>Letícia Moura</b> estudante de Engenharia de Software e apaixonada por tecnologia e inovação desde sempre. Minha trajetória em T.I. é marcada pela busca constante por transformar ideias em interfaces funcionais, intuitivas e visualmente bem estruturadas. Tenho experiência prática com construção de aplicações, integração com APIs e modelagem de dados, sempre aplicando boas práticas de desenvolvimento e organização de código. Gosto de unir lógica, criatividade e tecnologia para criar experiências digitais que realmente geram impacto. Estou em constante evolução, acompanhando tendências e explorando novas tecnologias para desenvolver soluções modernas, eficientes e centradas no usuário.
+                        </p>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-3 mt-5">Objetivos Profissionais</h3>
+                        <p class="text-gray-700 mb-4 leading-relaxed">
+                            Busco constantemente aprimorar minhas habilidades e conhecimentos para me tornar uma desenvolvedora completa, capaz de criar experiências web significativas e acessíveis para todos os usuários.
+                        </p>
+                        
+                        <blockquote class="italic py-4 px-5 md:py-5 md:px-8 bg-gradient-to-r from-purple-100 to-white rounded-xl border-l-4 border-pink-500 text-purple-800 shadow-md mt-4">
+                            "O sucesso é a soma de pequenos esforços repetidos dia após dia." 
+                            <cite class="block mt-2 text-sm text-blue-600 font-semibold">- Robert Collier</cite>
+                        </blockquote>
+                    </div>
+                </div>
+            </article>
+        </section>
+        
+        <!-- Formação -->
+        <section id="formacao" class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-6 md:p-8 mb-6 md:mb-8 hover-lift transition-all animate-fadeIn border border-white/20">
+            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-purple-800 mb-6 md:mb-8 relative pb-3 inline-block">
+                Formação Acadêmica
+                <span class="absolute bottom-0 left-0 w-20 h-1 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full"></span>
+            </h2>
+            
+            <div class="overflow-x-auto responsive-table">
+                <table class="w-full border-separate border-spacing-0 rounded-xl overflow-hidden shadow-lg">
+                    <thead class="bg-gradient-to-r from-purple-600 to-purple-800 text-white">
+                        <tr>
+                            <th class="p-3 md:p-4 font-semibold text-xs md:text-sm uppercase tracking-wide">Curso</th>
+                            <th class="p-3 md:p-4 font-semibold text-xs md:text-sm uppercase tracking-wide">Instituição</th>
+                            <th class="p-3 md:p-4 font-semibold text-xs md:text-sm uppercase tracking-wide">Ano</th>
+                            <th class="p-3 md:p-4 font-semibold text-xs md:text-sm uppercase tracking-wide">Situação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover:bg-purple-50 transition-colors">
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white">téc. em Edificações</td>
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white">Instituto Federal do Maranhão</td>
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white">2023</td>
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white text-green-600 font-semibold">✅ Concluído</td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition-colors">
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white">Engenharia de Software</td>
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white">UNIFSA</td>
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white">2027</td>
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white text-blue-600 font-semibold">🔄 Em andamento</td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition-colors">
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white">Figma - UX UI do básico ao avançado</td>
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white">Udemy</td>
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white">2025</td>
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white text-green-600 font-semibold">✅ Concluído</td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition-colors">
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white">Python</td>
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white">Curso em vídeo</td>
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white">2025</td>
+                            <td class="p-3 md:p-4 border-b border-gray-100 bg-white text-green-600 font-semibold">✅ Concluído</td>
+                        </tr>
+                        <tr class="hover:bg-purple-50 transition-colors">
+                            <td class="p-3 md:p-4 bg-white">Java</td>
+                            <td class="p-3 md:p-4 bg-white">Curso em vídeo</td>
+                            <td class="p-3 md:p-4 bg-white">2025</td>
+                            <td class="p-3 md:p-4 bg-white text-green-600 font-semibold">✅ Concluído</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- Habilidades -->
+        <section id="habilidades" class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-6 md:p-8 mb-6 md:mb-8 hover-lift transition-all animate-fadeIn border border-white/20">
+            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-purple-800 mb-6 md:mb-8 relative pb-3 inline-block">
+                Minhas Habilidades
+                <span class="absolute bottom-0 left-0 w-20 h-1 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full"></span>
+            </h2>
+            
+            <article class="bg-white rounded-xl p-5 md:p-6 mb-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">💻 Hard Skills</h3>
+                <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 list-inside">
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">HTML</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">CSS</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">JavaScript</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Versionamento com Git e GitHub</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Java</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Python</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Figma</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">n8n</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">SQL, MySQL e NoSQL</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Levantamento de requisitos</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Scrum e Kanban</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Power BI</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">IA</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Arquitetura e design de software</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Modelagem UML</li>
+                </ol>
+            </article>
+            
+            <article class="bg-white rounded-xl p-5 md:p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">🤝 Soft Skills</h3>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 list-inside">
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Trabalho em equipe</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Comunicação clara e objetiva</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Resolução de problemas</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Aprendizado contínuo</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Proativa</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Adaptabilidade a mudanças</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Gestão de tempo</li>
+                    <li class="bg-gray-50 p-3 rounded-lg hover:bg-purple-50 hover:translate-x-2 transition-all">Inovação e criatividade</li>
+                </ul>
+            </article>
+        </section>
+        
+        <!-- Projetos -->
+        <section id="projetos" class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-6 md:p-8 mb-6 md:mb-8 hover-lift transition-all animate-fadeIn border border-white/20">
+            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-purple-800 mb-6 md:mb-8 relative pb-3 inline-block">
+                Meus Projetos
+                <span class="absolute bottom-0 left-0 w-20 h-1 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full"></span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Projeto 1 -->
+                <article class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm hover:shadow-xl transition-all hover:scale-[1.02] duration-300">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Projeto 1: Sistema de livrarias</h3>
+                    <img src="https://www.marzul.pt/documentos/image/images/Imagem%20005.jpg" alt="Livraria Lelet" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300 mb-3">
+                    <p class="text-gray-700 text-sm leading-relaxed">Um sistema completo de livraria online para a Livraria Lelet, integrando login social, gestão de livros e fluxo de compra, com foco em design moderno, responsivo e intuitivo. <a href="https://github.com/leticiasmx/Sistema-de-Livraria.git" target="_blank" class="text-purple-600 font-semibold hover:text-purple-800">🔗 link do projeto</a></p>
+                </article>
+                
+                <!-- Projeto 2 -->
+                <article class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm hover:shadow-xl transition-all hover:scale-[1.02] duration-300">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Projeto 2: StreamNow</h3>
+                    <img src="https://tec.com.pe/wp-content/uploads/2021/08/56f6a778c96edabf4a304f839b014cdf.png" alt="steam now" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300 mb-3">
+                    <p class="text-gray-700 text-sm leading-relaxed">Desenvolvi um projeto de otimização de banco de dados no PostgreSQL para a plataforma fictícia StreamNow. <a href="https://github.com/leticiasmx/StreamNow.git" target="_blank" class="text-purple-600 font-semibold hover:text-purple-800">🔗 link do projeto</a></p>
+                </article>
+                
+                <!-- Projeto 3 -->
+                <article class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm hover:shadow-xl transition-all hover:scale-[1.02] duration-300">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Projeto 3: Site sobre Zigbee</h3>
+                    <img src="https://www.dusuniot.com/wp-content/uploads/2023/01/zigbee-in-smart-home-application.jpg" alt="zigbee" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300 mb-3">
+                    <p class="text-gray-700 text-sm leading-relaxed">Página web informativa sobre a tecnologia Zigbee, um protocolo de comunicação sem fio amplamente utilizado na Internet das Coisas (IoT). <a href="https://leticiasmx.github.io/Site-Zigbee/" target="_blank" class="text-purple-600 font-semibold hover:text-purple-800">🔗 link do projeto</a></p>
+                </article>
+                
+                <!-- Projeto 4 -->
+                <article class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm hover:shadow-xl transition-all hover:scale-[1.02] duration-300">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Projeto 4: Banco de dados locadora de veiculos</h3>
+                    <img src="https://i1.wp.com/novonegocio.com.br/wp-content/uploads/2012/01/como_montar_uma_locadora_de_veiculos.jpg?resize=1024%2C576&ssl=1" alt="locadora" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300 mb-3">
+                    <p class="text-gray-700 text-sm leading-relaxed">Sistema completo de banco de dados para locadoras de veículos que automatiza e integra todas as operações do negócio. <a href="https://github.com/leticiasmx/locadora-banco-de-dados.git" target="_blank" class="text-purple-600 font-semibold hover:text-purple-800">🔗 link do projeto</a></p>
+                </article>
+                
+                <!-- Projeto 5 -->
+                <article class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm hover:shadow-xl transition-all hover:scale-[1.02] duration-300">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Projeto 5: NutriAI</h3>
+                    <img src="https://evolution.com.br/wp-content/uploads/2025/12/curso-de-nutricao-hospitalar-gratuito.webp" alt="nutriai" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300 mb-3">
+                    <p class="text-gray-700 text-sm leading-relaxed">Solução tecnológica inteligente que melhora a qualidade de vida de pacientes com câncer de estômago e diabetes. <a href="https://github.com/leticiasmx/NutriAi_St.git" target="_blank" class="text-purple-600 font-semibold hover:text-purple-800">🔗 link do projeto</a></p>
+                </article>
+                
+                <!-- Projeto 6 -->
+                <article class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm hover:shadow-xl transition-all hover:scale-[1.02] duration-300">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Projeto 6: Recomendador de receitas fitness</h3>
+                    <img src="https://www.sabornamesa.com.br/media/k2/items/cache/fb724689fdf591b9982252b66ec91f1d_L.jpg" alt="receitas fitness" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300 mb-3">
+                    <p class="text-gray-700 text-sm leading-relaxed">Automação criada no <b>n8n</b> utilizando embeddings da OpenAI com banco vetorial no Supabase. <a href="https://github.com/leticiasmx/TRABALHO_BD-VETORIAL.git" target="_blank" class="text-purple-600 font-semibold hover:text-purple-800">🔗 link do projeto</a></p>
+                </article>
+
+                <!-- Projeto 7 -->
+                <article class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm hover:shadow-xl transition-all hover:scale-[1.02] duration-300">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Projeto 7: Site para Primeira Igreja Batista de Timon</h3>
+                    <img src="https://tse4.mm.bing.net/th/id/OIP.1XMR8bc3soRB-L7Oxph3HgHaHa?pid=Api&P=0&h=180" alt="logo pib" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300 mb-3">
+                    <p class="text-gray-700 text-sm leading-relaxed">Desenvolvi um site institucional responsivo para a Primeira Igreja Batista de Timon, utilizando HTML, Tailwind CSS e JavaScript. O projeto apresenta informações da igreja, ministérios e programação, além de incluir contato via WhatsApp, área de doações com cópia de dados e integração com mapa. <a href=" https://leticiasmx.github.io/Site-Para-Igreja-/" target="_blank" class="text-purple-600 font-semibold hover:text-purple-800">🔗 link do projeto</a></p>
+                </article>
+
+                <!-- Projeto 8 -->
+                <article class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm hover:shadow-xl transition-all hover:scale-[1.02] duration-300">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Projeto 8: Site para Brechó</h3>
+                    <img src="https://cdn6.campograndenews.com.br/uploads/noticias/2022/09/29/cece0e4ef6a5a54a60b464908c6841ac9d5aa9d7.JPG" alt="receitas fitness" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300 mb-3">
+                    <p class="text-gray-700 text-sm leading-relaxed">Desenvolvi um site responsivo para o Brechó da Deusa, com foco em apresentar catálogo, promoções e informações de forma atrativa e organizada. O projeto foi feito com HTML e CSS, destacando preços acessíveis, identidade visual acolhedora e integração com WhatsApp e redes sociais para facilitar o contato com clientes. <a href="https://leticiasmx.github.io/Site-para-Brech-/" target="_blank" class="text-purple-600 font-semibold hover:text-purple-800">🔗 link do projeto</a></p>
+                </article>
+            </div>
+            
+            <!-- Seção do Currículo -->
+            <div class="mt-10 text-center">
+                <a href="#" class="curriculum-btn" id="curriculumLink">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                    📄 Baixar Currículo
+                </a>
+                <p class="text-sm text-gray-500 mt-2 dark:text-gray-400">Clique para acessar meu currículo no Canva</p>
+            </div>
+        </section>
+        
+        <!-- Informações Rápidas (Aside) -->
+        <aside class="bg-gradient-to-r from-purple-100 to-white rounded-2xl shadow-xl p-6 md:p-8 mb-6 md:mb-8 hover-lift transition-all border-r-4 border-pink-500">
+            <h3 class="text-2xl font-bold text-purple-800 mb-4">📌 Informações Rápidas</h3>
+            <ul class="space-y-3">
+                <li class="bg-white/70 backdrop-blur-sm p-4 rounded-xl hover:bg-white transition-all dark:bg-gray-800/70"><strong class="text-purple-700 dark:text-purple-300">📍 Localização:</strong> <span class="dark:text-gray-200">Timon-MA | Teresina-PI</span></li>
+                <li class="bg-white/70 backdrop-blur-sm p-4 rounded-xl hover:bg-white transition-all dark:bg-gray-800/70"><strong class="text-purple-700 dark:text-purple-300">💼 Disponibilidade:</strong> <span class="dark:text-gray-200">Estágio em T.I</span></li>
+                <li class="bg-white/70 backdrop-blur-sm p-4 rounded-xl hover:bg-white transition-all dark:bg-gray-800/70"><strong class="text-purple-700 dark:text-purple-300">🗣️ Idiomas:</strong> <span class="dark:text-gray-200">Espanhol avançado e Inglês avançado</span></li>
+            </ul>
+        </aside>
+    
+    <!-- Footer -->
+    <footer class="max-w-6xl mx-auto bg-gradient-to-r from-gray-900 to-black text-white rounded-2xl shadow-xl p-6 md:p-8 text-center hover-lift transition-all">
+        <h3 class="text-xl md:text-2xl font-bold mb-5">🌐 Redes Sociais e Links Externos</h3>
+        <ul class="flex flex-wrap justify-center gap-3 md:gap-5 mb-4">
+            <li><a href="https://github.com/leticiasmx" target="_blank" class="bg-white/10 px-4 py-2 md:px-6 md:py-3 rounded-full hover:bg-white hover:text-purple-800 transition-all inline-block text-sm md:text-base">🐙 GitHub</a></li>
+            <li><a href="https://instagram.com/leletcode" target="_blank" class="bg-white/10 px-4 py-2 md:px-6 md:py-3 rounded-full hover:bg-white hover:text-purple-800 transition-all inline-block text-sm md:text-base">📸 Instagram</a></li>
+            <li><a href="https://wa.me/559982052171" target="_blank" class="bg-white/10 px-4 py-2 md:px-6 md:py-3 rounded-full hover:bg-white hover:text-purple-800 transition-all inline-block text-sm md:text-base">📱 WhatsApp</a></li>
+            <li><a href="mailto:sammyaleticia1234@gmail.com" target="_blank" class="bg-white/10 px-4 py-2 md:px-6 md:py-3 rounded-full hover:bg-white hover:text-purple-800 transition-all inline-block text-sm md:text-base">📩 Email</a></li>
+        </ul>
+        <p class="text-gray-400 text-sm mt-4">© 2026 Letícia Moura - Todos os direitos reservados</p>
+    </footer>
+</body>
+
+<script>
+    // ==================== BOTÃO VOLTAR AO TOPO ====================
+    const backToTopButton = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('show');
+        } else {
+            backToTopButton.classList.remove('show');
+        }
+    });
+    
+    backToTopButton.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // ==================== MODO ESCURO MELHORADO ====================
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const darkModeIcon = document.getElementById('darkModeIcon');
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        darkModeIcon.innerHTML = '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
+    }
+    
+    darkModeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        
+        if (document.body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+            darkModeIcon.innerHTML = '<path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>';
+        } else {
+            localStorage.setItem('theme', 'light');
+            darkModeIcon.innerHTML = '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
+        }
+    });
+    
+    // ==================== LINK DO CURRÍCULO (ATUALIZADO - CANVA) ====================
+    const curriculumLink = document.getElementById('curriculumLink');
+    
+    // Seu link real do currículo no Canva
+    const curriculumUrl = 'https://canva.link/n1klo59fv8kfoxg';
+    
+    curriculumLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Abre o currículo em uma nova aba
+        window.open(curriculumUrl, '_blank');
+    });
+</script>
+</html>
